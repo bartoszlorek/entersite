@@ -26,7 +26,8 @@ a:hover {
     color: #222;
     text-decoration: none;
     position: relative;
-    -webkit-tap-highlight-color: #c2e08e;
+    -webkit-tap-highlight-color: rgba(148, 204, 51, 0.5);
+    outline: 0;
 }
 
 @media (pointer: fine) {
