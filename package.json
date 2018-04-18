@@ -1,0 +1,23 @@
+{
+  "name": "entersite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node ./src/scripts/build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bartoszlorek/entersite.git"
+  },
+  "author": "Bartosz Lorek",
+  "bugs": {
+    "url": "https://github.com/bartoszlorek/entersite/issues"
+  },
+  "homepage": "https://github.com/bartoszlorek/entersite#readme",
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "mustache": "^2.3.0"
+  }
+}

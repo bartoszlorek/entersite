@@ -1,0 +1,38 @@
+[
+    {
+        "title": "projects",
+        "items": [
+            {
+                "url": "http://w-arte.pl/",
+                "name": "w-arte.pl"
+            },
+            {
+                "url": "http://ankawalicka.com/",
+                "name": "ankawalicka.com"
+            },
+            {
+                "url": "http://plankton.tv/",
+                "name": "plankton.tv"
+            },
+            {
+                "url": null
+            },
+            {
+                "url": "http://nocnaukowcow.malopolska.pl/program/krakow/",
+                "name": "małopolska noc naukowców"
+            },
+            {
+                "url": "http://wfp.asp.krakow.pl/absolwent/",
+                "name": "wfp.asp.krakow.pl/appsolwent"
+            },
+            {
+                "url": "http://tydzienprzedsiebiorczosci.malopolska.pl/program/krakow",
+                "name": "stp.malopolska.pl/program"
+            },
+            {
+                "url": "https://ecumaster.com/",
+                "name": "ecumaster.com"
+            }
+        ]
+    }
+]
