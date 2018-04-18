@@ -1,26 +1,34 @@
 const path = require('path')
 const glob = require('glob')
 
+const hbs = require('handlebars')
+const createLoader = require('./loader')
 const template = require('./template')
-const { render } = require('mustache')
 
-const blankLine = /^\s*[\r\n]/gm
+const { get } = require('lodash')
 
-module.exports = (configObject, dataPattern) => {
-    let globalData = {}
+hbs.registerHelper('fn', (name, options) => {
+    let { root } = options.data
 
-    glob.sync(dataPattern).forEach(file => {
-        let { name } = path.parse(file)
-        globalData[name] = require(path.resolve(file))
-    })
+    let func = root.local && root.local[name]
+    if (typeof func !== 'function') {
+        return ''
+    }
+    return func(root) || ''
+})
 
-    return (path, pageData) => {
-        let view = Object.assign(
-            configObject,
-            globalData,
-            pageData
+module.exports = (config, loaders) => {
+    let load = createLoader(loaders)
+    return (filepath, context) => {
+        let info = {
+            view: path.parse(filepath)
+        }
+        let data = Object.assign(
+            load(filepath),
+            context,
+            info,
+            config
         )
-        let html = render(template(path), view)
-        return html.replace(blankLine, '')
+        return hbs.compile(template(filepath))(data)
     }
 }

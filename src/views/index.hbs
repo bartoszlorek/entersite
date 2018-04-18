@@ -1,0 +1,14 @@
+{{#each global.menu}}
+    <h3>{{title}}</h3>
+    <ul>
+        {{#each items}}
+        <li>
+            {{~#if url~}}
+                <li><a href="{{url}}">{{name}}</a>
+            {{~else~}}
+                &nbsp;
+            {{~/if~}}
+        </li>
+        {{/each}}
+    </ul>
+{{~/each}}
