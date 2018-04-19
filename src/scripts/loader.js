@@ -1,52 +1,85 @@
 const path = require('path')
 const glob = require('glob')
+const { map } = require('lodash')
 
-const PREFIX_GLOBAL = 'global'
-const PREFIX_LOCAL = 'local'
 const merge = (a, b) => Object.assign({}, a, b)
 
-function createLoader(loaders) {
-    if (loaders == null) {
-        return () => null
-    }
-    let fnLoaders = [],
-        data = {}
+/*
+{
+    prop1: {
+        pattern: info => string,
+        extract: true
+    },
+    prop2: {
+        pattern: string,
+    },
+    prop3: string
+}
+*/
 
-    const loadFile = (prefix, label = true) => {
-        if (data[prefix] === undefined) {
-            data[prefix] = {}
-        }
-        return file => {
-            let value = require(path.resolve(file))
-            if (label) {
-                let { name } = path.parse(file)
-                data[prefix][name] = merge(data[prefix][name], value)
-            } else {
-                data[prefix] = merge(data[prefix], value)
+function parseLoaders(loaders) {
+    return map(loaders, (spec, prop) => {
+        let type = spec != null && typeof spec
+        if (type === 'string') {
+            return {
+                prop,
+                pattern: spec,
+                extract: false,
+                deferred: false
             }
         }
-    }
 
-    loaders.forEach(loader => {
-        if (typeof loader === 'function') {
-            fnLoaders.push(loader)
-        } else {
-            glob.sync(loader).forEach(loadFile(PREFIX_GLOBAL))
+        if (type === 'object') {
+            let { pattern, extract } = spec
+            return {
+                prop,
+                pattern: pattern || null,
+                extract: !!extract,
+                deferred: typeof pattern === 'function'
+            }
         }
-    })
+    }).filter(a => a !== undefined)
+}
+
+function createExecutor(data) {
+    return info => loader => {
+        let { prop, pattern, extract, deferred } = loader
+
+        if (deferred) {
+            pattern = pattern(info)
+        }
+        if (typeof pattern !== 'string') {
+            return
+        }
+        glob.sync(pattern).forEach(file => {
+            let value = require(path.resolve(file))
+
+            if (data[prop] === undefined) {
+                data[prop] = {}
+            }
+            if (extract) {
+                data[prop] = merge(data[prop], value)
+            } else {
+                let { name } = path.parse(file)
+                data[prop][name] = merge(data[prop][name], value)
+            }
+        })
+    }
+}
+
+function createLoader(spec) {
+    if (spec == null) {
+        return () => null
+    }
+    const data = {}
+    const execute = createExecutor(data)
+    const loaders = parseLoaders(spec)
+
+    loaders.filter(a => !a.deferred).forEach(execute(null))
 
     return filepath => {
-        if (fnLoaders.length > 0) {
-            let info = path.parse(filepath),
-                load = loadFile(PREFIX_LOCAL, false)
-
-            fnLoaders.forEach(loader => {
-                let pattern = loader(info)
-                if (typeof pattern === 'string') {
-                    glob.sync(pattern).forEach(load)
-                }
-            })
-        }
+        let info = path.parse(filepath)
+        loaders.filter(a => a.deferred).forEach(execute(info))
         return data
     }
 }
