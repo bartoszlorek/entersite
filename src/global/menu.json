@@ -1,5 +1,22 @@
 [
     {
+        "title": "links",
+        "items": [
+            {
+                "url": "mailto:bery.lorek@gmail.com",
+                "name": "bery.lorek@gmail.com"
+            },
+            {
+                "url": "https://github.com/bartoszlorek",
+                "name": "github.com"
+            },
+            {
+                "url": "https://bitbucket.org/bartosz_lorek",
+                "name": "bitbucket.org"
+            }
+        ]
+    },
+    {
         "title": "projects",
         "items": [
             {
@@ -32,6 +49,40 @@
             {
                 "url": "https://ecumaster.com/",
                 "name": "ecumaster.com"
+            }
+        ]
+    },
+    {
+        "title": "extensions",
+        "items": [
+            {
+                "url": "https://chrome.google.com/webstore/detail/change-case/lpakoahdokkkonadfppfgmednkknpgbm",
+                "name": "Change Case"
+            },
+            {
+                "url": "https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi",
+                "name": "Glyphs"
+            }
+        ]
+    },
+    {
+        "title": "demos",
+        "items": [
+            {
+                "url": "http://bartoszlorek.pl/run/glitch-img/",
+                "name": "glitch-img"
+            },
+            {
+                "url": "http://bartoszlorek.pl/run/glitch-text/",
+                "name": "glitch-text"
+            },
+            {
+                "url": "http://bartoszlorek.pl/run/old/square-clouds",
+                "name": "square-clouds"
+            },
+            {
+                "url": "http://bartoszlorek.pl/run/old/text-wrapper",
+                "name": "text-wrapper"
             }
         ]
     }
