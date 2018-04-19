@@ -1,14 +1,28 @@
-{{#each global.menu}}
-    <h3>{{title}}</h3>
-    <ul>
-        {{#each items}}
-        <li>
-            {{~#if url~}}
+<div class="page">
+
+    <div class="page__menu menu sticky">
+        {{#each global.menu}}
+        <h3 class="menu__title">{{title}}</h3>
+        <ul class="menu__items">
+            {{#each items}}
+            <li class="menu__item">
+                {{~#if url~}}
                 <a href="{{url}}">{{name}}</a>
-            {{~else~}}
-                &nbsp;
-            {{~/if~}}
-        </li>
+                {{~else~}}&nbsp;{{~/if~}}
+            </li>
+            {{/each}}
+        </ul>
         {{/each}}
-    </ul>
-{{/each}}
+    </div>
+
+    <div class="page__images">
+        <img src="{{path.root}}/assets/images/glyphs-screen.png" width="1920" height="1080" />
+        <img src="{{path.root}}/assets/images/change-case-screen-1.png" width="1280" height="800" />
+        <img src="{{path.root}}/assets/images/change-case-screen-2.png" width="1280" height="800" />
+        <img src="{{path.root}}/assets/images/w-arte-1.jpg" width="1920" height="1200" />
+        <img src="{{path.root}}/assets/images/w-arte-2.png" width="1920" height="1200" />
+        <img src="{{path.root}}/assets/images/anka-1.png" width="1920" height="1200" />
+        <img src="{{path.root}}/assets/images/anka-2.jpg" width="1920" height="1200" />
+    </div>
+
+</div>

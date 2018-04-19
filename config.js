@@ -1,6 +1,7 @@
 module.exports = {
     path: {
         src: './src',
-        public: './public'
+        public: './public',
+        root: './www/'
     }
 }

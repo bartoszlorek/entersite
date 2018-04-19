@@ -5,17 +5,7 @@ html {
 
 body {
     color: #222;
-    padding: 24px;
     margin: 0;
-}
-
-@media (min-width: 600px) {
-    html {
-        /* font-size: 18px; */
-    }
-    body {
-        padding: 6%;
-    }
 }
 
 a,
@@ -45,18 +35,66 @@ a:hover {
     }
 }
 
-h3 {
+img {
+    width: 100%;
+    height: auto;
+}
+
+.page__menu {
+    padding: 24px;
+}
+
+.page__images {
+    display: none;
+}
+
+@media (min-width: 600px) {
+    .page {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .page__menu {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+    }
+
+    .page__images {
+        display: block;
+    }
+
+    .page__menu,
+    .page__images {
+        padding: 6vw;
+    }
+
+    .page__images img {
+        display: block;
+        margin: 0 0 6vw;
+    }
+
+    .page__images img:last-child {
+        margin: 0;
+    }
+}
+
+.menu__title {
     font-weight: 500;
     margin: 0 0 12px;
 }
 
-ul {
+.menu__items {
     list-style-type: none;
     margin: 0 0 36px;
     padding: 0;
 }
 
-li a {
+.menu__items:last-child {
+    margin: 0;
+}
+
+.menu__item a {
     display: inline-block;
     padding: 0.2em 0;
 }
