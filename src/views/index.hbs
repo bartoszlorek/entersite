@@ -1,7 +1,7 @@
+{{#> partials/layout}}
 <div class="page">
-
     <div class="page__menu menu sticky">
-        {{#each global.menu}}
+        {{#each project}}
         <h3 class="menu__title">{{title}}</h3>
         <ul class="menu__items">
             {{#each items}}
@@ -14,15 +14,14 @@
         </ul>
         {{/each}}
     </div>
-
     <div class="page__images">
-        <img src="{{path.root}}/assets/images/glyphs-screen.png" width="1920" height="1080" />
-        <img src="{{path.root}}/assets/images/change-case-screen-1.png" width="1280" height="800" />
-        <img src="{{path.root}}/assets/images/change-case-screen-2.png" width="1280" height="800" />
-        <img src="{{path.root}}/assets/images/w-arte-1.jpg" width="1920" height="1200" />
-        <img src="{{path.root}}/assets/images/w-arte-2.png" width="1920" height="1200" />
-        <img src="{{path.root}}/assets/images/anka-1.png" width="1920" height="1200" />
-        <img src="{{path.root}}/assets/images/anka-2.jpg" width="1920" height="1200" />
+        <img src="{{global.root}}assets/images/glyphs-screen.png" width="1920" height="1080" />
+        <img src="{{global.root}}assets/images/change-case-screen-1.png" width="1280" height="800" />
+        <img src="{{global.root}}assets/images/change-case-screen-2.png" width="1280" height="800" />
+        <img src="{{global.root}}assets/images/w-arte-1.jpg" width="1920" height="1200" />
+        <img src="{{global.root}}assets/images/w-arte-2.png" width="1920" height="1200" />
+        <img src="{{global.root}}assets/images/anka-1.png" width="1920" height="1200" />
+        <img src="{{global.root}}assets/images/anka-2.jpg" width="1920" height="1200" />
     </div>
-
 </div>
+{{/partials/layout}}

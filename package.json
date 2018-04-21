@@ -2,8 +2,10 @@
   "name": "entersite",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "node ./build"
+    "start": "webpack --progress --colors --watch",
+    "build": "webpack -p --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -14,10 +16,13 @@
     "url": "https://github.com/bartoszlorek/entersite/issues"
   },
   "homepage": "https://github.com/bartoszlorek/entersite#readme",
-  "dependencies": {
-    "fs-extra": "^5.0.0",
-    "glob": "^7.1.2",
+  "devDependencies": {
     "handlebars": "^4.0.11",
-    "lodash": "^4.17.5"
+    "handlebars-webpack-plugin": "^1.4.1",
+    "lodash": "^4.17.5",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "stickyfilljs": "^2.0.3"
   }
 }
