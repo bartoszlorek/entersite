@@ -1,5 +1,15 @@
 const path = require('path')
 const HandlebarsPlugin = require('handlebars-webpack-plugin')
+const isProduction = process.argv.includes('-p')
+
+let data = require('./src/data')
+
+if (isProduction) {
+    process.env.NODE_ENV = 'production'
+    data.global = Object.assign(data.global, {
+        root: './www/'
+    })
+}
 
 module.exports = {
     entry: './src/index.js',
@@ -14,7 +24,10 @@ module.exports = {
             data: require('./src/data'),
             partials: [
                 path.join(__dirname, '/src/partials/**/*.hbs')
-            ]
+            ],
+            helpers: {
+                dir: path.join(__dirname, '/src/helpers/**/*.js')
+            }
         })
     ]
 }
