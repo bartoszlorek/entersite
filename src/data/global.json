@@ -1,3 +1,4 @@
 {
-    "root": "./www/"
+    "root": "./",
+    "images": "assets/images/"
 }

@@ -21,11 +21,13 @@
         "items": [
             {
                 "url": "http://w-arte.pl/",
-                "name": "w-arte.pl"
+                "name": "w-arte.pl",
+                "group": "w-arte"
             },
             {
                 "url": "http://ankawalicka.com/",
-                "name": "ankawalicka.com"
+                "name": "ankawalicka.com",
+                "group": "anka"
             },
             {
                 "url": "http://plankton.tv/",
@@ -57,11 +59,13 @@
         "items": [
             {
                 "url": "https://chrome.google.com/webstore/detail/change-case/lpakoahdokkkonadfppfgmednkknpgbm",
-                "name": "Change Case"
+                "name": "Change Case",
+                "group": "change-case"
             },
             {
                 "url": "https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi",
-                "name": "Glyphs"
+                "name": "Glyphs",
+                "group": "glyphs"
             }
         ]
     },

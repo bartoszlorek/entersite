@@ -1,0 +1,44 @@
+[
+    {
+        "filename": "glyphs-screen.png",
+        "width": "1920",
+        "height": "1080",
+        "group": "glyphs"
+    },
+    {
+        "filename": "change-case-screen-1.png",
+        "width": "1280",
+        "height": "800",
+        "group": "change-case"
+    },
+    {
+        "filename": "change-case-screen-2.png",
+        "width": "1280",
+        "height": "800",
+        "group": "change-case"
+    },
+    {
+        "filename": "w-arte-1.jpg",
+        "width": "1920",
+        "height": "1200",
+        "group": "w-arte"
+    },
+    {
+        "filename": "w-arte-2.png",
+        "width": "1920",
+        "height": "1200",
+        "group": "w-arte"
+    },
+    {
+        "filename": "anka-1.png",
+        "width": "1920",
+        "height": "1200",
+        "group": "anka"
+    },
+    {
+        "filename": "anka-2.jpg",
+        "width": "1920",
+        "height": "1200",
+        "group": "anka"
+    }
+]
