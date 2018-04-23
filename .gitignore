@@ -50,5 +50,4 @@ jspm_packages
 .env
 
 # public directories
-public
-dist
+public/*/
