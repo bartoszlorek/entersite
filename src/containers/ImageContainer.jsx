@@ -1,15 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { ROOT } from '../constants'
 import Image from '../components/Image'
 import data from '../data/images.json'
+
+const transformedData = data.map(img => ({
+    src: `${ROOT}/images/${img.filename}`,
+    'data-group': img.group,
+    width: img.width,
+    height: img.height
+}))
 
 class ImageContainer extends React.Component {
     render() {
         let { className } = this.props
         return (
             <div className={className}>
-                {data.map((item, index) => <Image key={index} {...item} />)}
+                {transformedData.map((item, index) => (
+                    <Image key={index} {...item} />
+                ))}
             </div>
         )
     }

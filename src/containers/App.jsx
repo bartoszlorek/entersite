@@ -3,7 +3,7 @@ import styled, { injectGlobal } from 'styled-components'
 
 import MenuContainer from './MenuContainer'
 import ImageContainer from './ImageContainer'
-import global from '../global'
+import styles from '../styles'
 
 class App extends React.Component {
     constructor(props) {
@@ -29,4 +29,4 @@ export default styled(App)`
     }
 `
 
-injectGlobal(global)
+injectGlobal(styles)
