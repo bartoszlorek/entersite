@@ -1,4 +1,9 @@
 const path = require('path')
+const buildIndex = require('./index.build')
+
+buildIndex({
+    context: require('./config')
+})
 
 module.exports = {
     entry: './src/index.jsx',

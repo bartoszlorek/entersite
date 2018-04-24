@@ -1,8 +1,13 @@
 const webpack = require('webpack')
 const path = require('path')
+const buildIndex = require('./index.build')
 
 // for babel-loader
 process.env.NODE_ENV = 'production'
+
+buildIndex({
+    context: require('./config')
+})
 
 module.exports = {
     entry: './src/index.jsx',
