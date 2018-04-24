@@ -23,17 +23,21 @@ const parseNode = node => {
 }
 
 function createStickyflow(view = window, factor = 0.33) {
-    let prevOffset = 0,
-        viewHeight = 0,
+    let lastPageOffset = 0,
         elements = []
 
     const calc = () => {
-        let offset = (view.pageYOffset - prevOffset) * factor
-        prevOffset = view.pageYOffset
-        viewHeight = getViewHeight()
+        let index = -1
+        const length = elements.length
+        const offset = (view.pageYOffset - lastPageOffset) * factor
+        const viewHeight = getViewHeight()
 
-        elements.forEach(elem => {
-            let height = getHeight(elem)
+        lastPageOffset = view.pageYOffset
+
+        while (++index < length) {
+            let elem = elements[index],
+                height = getHeight(elem)
+
             if (height < viewHeight) {
                 elem.style.top = ''
                 return
@@ -49,7 +53,7 @@ function createStickyflow(view = window, factor = 0.33) {
             } else {
                 elem.style.top = ''
             }
-        })
+        }
     }
 
     const attachListeners = () => {
@@ -77,9 +81,14 @@ function createStickyflow(view = window, factor = 0.33) {
         },
 
         removeOne: node => {
-            elements = elements.filter(a => a !== node)
-            if (!elements.length) {
-                detachListeners()
+            let parsed = parseNode(node)
+            if (parsed.length) {
+                elements = elements.filter(a => {
+                    return parsed.indexOf(a) < 0
+                })
+                if (!elements.length) {
+                    detachListeners()
+                }
             }
             return self
         },
@@ -91,7 +100,6 @@ function createStickyflow(view = window, factor = 0.33) {
         }
     }
 
-    calc()
     return self
 }
 
