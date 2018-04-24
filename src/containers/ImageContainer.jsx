@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ROOT } from '../constants'
+import { BASE } from '../../config'
 import Image from '../components/Image'
 import data from '../data/images.json'
 
 const transformedData = data.map(img => ({
-    src: `${ROOT}/images/${img.filename}`,
+    src: `${BASE}images/${img.filename}`,
     'data-group': img.group,
     width: img.width,
     height: img.height
