@@ -12,10 +12,19 @@ const getHeight = elem => {
     return elem.offsetHeight || elem.clientHeight || 0
 }
 
+const parseNode = node => {
+    if (node == null) {
+        return []
+    }
+    if (node.length !== undefined) {
+        return Array.prototype.slice.call(node)
+    }
+    return [node]
+}
+
 function createStickyflow(view = window, factor = 0.33) {
     let prevOffset = 0,
         viewHeight = 0,
-        viewTop = 0,
         elements = []
 
     const calc = () => {
@@ -57,27 +66,18 @@ function createStickyflow(view = window, factor = 0.33) {
 
     const self = {
         add: node => {
-            if (node == null) {
-                return self
-            }
-            let length = elements.length
-            if (node.length !== undefined) {
-                node = Array.prototype.slice.call(node)
-                if (!node.length) {
-                    return self
+            let parsed = parseNode(node)
+            if (parsed.length) {
+                if (!elements.length) {
+                    attachListeners()
                 }
-                elements = elements.concat(node)
-            } else {
-                elements.push(node)
-            }
-            if (!length) {
-                attachListeners()
+                elements = elements.concat(parsed)
             }
             return self
         },
 
         removeOne: node => {
-            elements = elements.filter(e => e !== node)
+            elements = elements.filter(a => a !== node)
             if (!elements.length) {
                 detachListeners()
             }
