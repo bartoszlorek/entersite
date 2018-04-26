@@ -5,7 +5,7 @@ export default css`
         font-family: 'Fira Mono', monospace;
         font-size: 16px;
     }
-    
+
     body {
         color: #222;
         margin: 0;
@@ -23,7 +23,8 @@ export default css`
         outline: 0;
     }
 
-    @media (pointer: fine) {
+    .no-touchevents {
+        a.active:before,
         a:focus:before,
         a:hover:before {
             content: '';
