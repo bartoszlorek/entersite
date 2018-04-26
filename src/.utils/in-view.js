@@ -1,12 +1,24 @@
-const EVENT_NAMES = ['scroll', 'resize', 'orientationchange']
+const EVENT_NAMES = ['load', 'scroll', 'resize', 'orientationchange']
 
-const getViewHeight = () => {
-    return (
+const getViewSize = () => ({
+    width: (
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+    ),
+    height: (
         window.innerHeight ||
         document.documentElement.clientHeight ||
         document.body.clientHeight
     )
-}
+})
+
+const applySize = (bounds, size) => ({
+    top: bounds.top * size.height,
+    bottom: bounds.bottom * size.height,
+    left: bounds.left * size.width,
+    right: bounds.right * size.width
+})
 
 const parseNode = node => {
     if (node == null) {
@@ -19,37 +31,53 @@ const parseNode = node => {
 }
 
 const defaults = {
-    container: null,
     top: 0,
     bottom: 1,
     left: 0,
     right: 1
 }
 
-function createInView(spec) {
-    const options = Object.assign({}, defaults, spec)
+function createInView(bounds = {}) {
+    bounds = Object.assign({}, defaults, bounds)
 
-    let elements = []
+    let elements = [],
+        callback = null
 
     const calc = () => {
-        let index = -1
+        if (callback === null) {
+            return
+        }
+        let result = [],
+            index = -1
+
         const length = elements.length
+        const sizing = applySize(bounds, getViewSize())
 
         while (++index < length) {
             let elem = elements[index],
                 rect = elem.getBoundingClientRect()
+
+            if (rect.top <= sizing.bottom &&
+                rect.bottom > sizing.top &&
+                rect.left <= sizing.right &&
+                rect.right > sizing.left
+            ) {
+                result.push(elem)
+            }
         }
+
+        callback(result)
     }
 
     const attachListeners = () => {
         EVENT_NAMES.forEach(name => {
-            view.addEventListener(name, calc)
+            window.addEventListener(name, calc)
         })
     }
 
     const detachListeners = () => {
         EVENT_NAMES.forEach(name => {
-            view.removeEventListener(name, calc)
+            window.removeEventListener(name, calc)
         })
     }
 
@@ -84,7 +112,10 @@ function createInView(spec) {
             return self
         },
 
-        onChange: () => {}
+        onChange: fn => {
+            callback = typeof fn === 'function' ? fn : null
+            return self
+        }
     }
 
     return self
