@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import createInView from '../.utils/in-view'
 
 import { BASE } from '../../config'
 import Image from '../components/Image'
@@ -12,11 +13,25 @@ const transformedData = data.map(img => ({
     height: img.height
 }))
 
+const inView = createInView({
+    top: 0.5,
+    bottom: 0.5
+})
+
 class ImageContainer extends React.Component {
+    componentDidMount() {
+        const { container } = this.refs
+        inView.add(container.children).onChange(this.props.onView)
+    }
+
+    componentWillUnmount() {
+        inView.removeAll()
+    }
+
     render() {
         let { className } = this.props
         return (
-            <div className={className}>
+            <div ref="container" className={className}>
                 {transformedData.map((item, index) => (
                     <Image key={index} {...item} />
                 ))}
