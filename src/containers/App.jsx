@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { bind } from '../.utils/react-utils'
+import { Bucket, Splash } from '../.utils/react-splash'
 
 import MenuContainer from './MenuContainer'
 import ImageContainer from './ImageContainer'
@@ -13,10 +14,15 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className={this.props.className}>
-                <MenuContainer />
-                <ImageContainer />
-            </div>
+            <Bucket
+                Splash={Splash}
+                render={() => (
+                    <div className={this.props.className}>
+                        <MenuContainer />
+                        <ImageContainer />
+                    </div>
+                )}
+            />
         )
     }
 }
