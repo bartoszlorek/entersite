@@ -1,8 +1,9 @@
 import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { bind } from '../.utils/react-utils'
-import { Bucket, Splash } from '../.utils/react-splash'
+import { Bucket } from '../.utils/react-splash'
 
+import { Splash, Handle } from '../components/Splash'
 import MenuContainer from './MenuContainer'
 import ImageContainer from './ImageContainer'
 import styles from '../styles'
@@ -10,19 +11,27 @@ import styles from '../styles'
 class App extends React.Component {
     constructor(props) {
         super(props)
+        bind(this, ['content'])
+    }
+
+    content(splash) {
+        return (
+            <div className={this.props.className}>
+                <MenuContainer />
+                <ImageContainer />
+            </div>
+        )
     }
 
     render() {
         return (
             <Bucket
                 Splash={Splash}
-                render={() => (
-                    <div className={this.props.className}>
-                        <MenuContainer />
-                        <ImageContainer />
-                    </div>
-                )}
-            />
+                Handle={Handle}
+                delay={1500}
+            >
+                {this.content}
+            </Bucket>
         )
     }
 }
@@ -32,6 +41,7 @@ export default styled(App)`
         & {
             display: flex;
             align-items: flex-start;
+            justify-content: space-between;
         }
     }
 `
