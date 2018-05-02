@@ -1,44 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { callRenderProp } from '../.utils/react-utils'
 
-export const STATE_LOADING = 'loading'
-export const STATE_DISPOSE = 'dispose'
-export const STATE_HIDDEN = 'hidden'
+export const LOADING = 'loading'
+export const DISPOSE = 'dispose'
+export const HIDDEN = 'hidden'
 
-class Bucket extends React.Component {
+class Bucket extends React.PureComponent {
     constructor(props) {
         super(props)
         const { duration, delay } = props
 
         this.state = {
-            visibility: STATE_LOADING,
+            status: LOADING,
+            isLoaded: false,
             duration,
             delay
         }
+
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                this.setState({
-                    visibility: STATE_DISPOSE
-                })
-                setTimeout(() => {
-                    this.setState({
-                        visibility: STATE_HIDDEN
-                    })
-                }, duration)
-            }, delay)
+            setTimeout(() => this.setState({
+                status: DISPOSE,
+                isLoaded: true
+            }), delay)
+
+            setTimeout(() => this.setState({
+                status: HIDDEN
+            }), delay + duration)
         })
     }
 
     render() {
-        const { render, Splash } = this.props
+        const { children, Splash, Handle } = this.props
 
-        if (this.state.visibility === STATE_HIDDEN) {
-            return render != null ? render(this.state) : null
+        if (this.state.status === HIDDEN) {
+            return callRenderProp(children, this.state)
         }
         return (
             <div>
-                {render != null && render(this.state)}
+                <Handle {...this.state} >
+                    {callRenderProp(children, this.state)}
+                </Handle>
                 <Splash {...this.state} />
             </div>
         )
@@ -47,33 +49,16 @@ class Bucket extends React.Component {
 
 Bucket.propTypes = {
     Splash: PropTypes.func.isRequired,
+    Handle: PropTypes.func,
     duration: PropTypes.number,
-    delay: PropTypes.number,
-    render: PropTypes.func
+    delay: PropTypes.number
 }
 
 // in milliseconds
 Bucket.defaultProps = {
+    Handle: props => props.children,
     duration: 1000,
-    delay: 500,
-    render: null
+    delay: 500
 }
 
-class Splash extends React.PureComponent {
-    render() {
-        return <div className={this.props.className} />
-    }
-}
-
-Splash = styled(Splash)`
-    position: fixed;
-    background: #141414;
-    z-index: 99999;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: ${props => (props.visibility === STATE_LOADING ? 0 : '100%')};
-    transition: bottom ${props => props.duration}ms;
-`
-
-export { Bucket, Splash }
+export { Bucket }
