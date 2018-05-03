@@ -1,3 +1,6 @@
+// Browser compatibility
+// IE9+, Firefox, Chrome, Safari, Opera
+
 const EVENT_SCHEMA = {
     onLoad: {
         type: ['load']
@@ -15,8 +18,6 @@ const EVENT_SCHEMA = {
     }
 }
 
-// Browser compatibility
-// IE9+, Firefox, Chrome, Safari, Opera
 const EVENT_ARGS_METHODS = {
     width: () => (
         window.innerWidth ||
@@ -85,7 +86,6 @@ function createEventHandlers(events, methods) {
         }
         result[name] = self
     })
-
     return result
 }
 
@@ -155,14 +155,14 @@ function createViewport(options) {
             }
             return api
         }
-
         event.removeOne = fn => {
             if (typeof fn === 'function') {
-                self.subscribers = self.subscribers.filter(sub => {
-                    return sub !== fn
-                })
-                if (!self.subscribers.length) {
-                    removeEventType(name)
+                let index = self.subscribers.indexOf(fn)
+                if (index > -1) {
+                    self.subscribers.splice(index, 1)
+                    if (!self.subscribers.length) {
+                        removeEventType(name)
+                    }
                 }
             }
             return api
