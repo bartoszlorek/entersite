@@ -75,24 +75,3 @@ export function createMemo(memo = {}) {
         return memo[name]
     }
 }
-
-function baseRenderProp(prop, args) {
-    if (prop == null) {
-        return null
-    }
-    if (typeof prop !== 'function') {
-        let propName = String(
-            (prop.type && prop.type.name) || prop.type || prop
-        )
-        if (propName.length > 50) {
-            propName = propName.slice(0, 50) + '...'
-        }
-        throw new TypeError(
-            `Given prop (${propName}) is render by Render Prop Component and should be a Function.`
-        )
-    }
-    return prop.apply(null, args)
-}
-
-export const applyRenderProp = baseRenderProp
-export const callRenderProp = (prop, ...args) => baseRenderProp(prop, args)

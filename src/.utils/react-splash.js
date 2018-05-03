@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { callRenderProp } from '../.utils/react-utils'
 
 export const LOADING = 'loading'
 export const DISPOSE = 'dispose'
@@ -31,15 +30,15 @@ class Bucket extends React.PureComponent {
     }
 
     render() {
-        const { children, Splash, Handle } = this.props
+        const { Splash, Handle, children } = this.props
 
         if (this.state.status === HIDDEN) {
-            return callRenderProp(children, this.state)
+            return children != null ? children(this.state) : null
         }
         return (
             <div>
                 <Handle {...this.state} >
-                    {callRenderProp(children, this.state)}
+                    {children != null && children(this.state)}
                 </Handle>
                 <Splash {...this.state} />
             </div>
@@ -50,6 +49,7 @@ class Bucket extends React.PureComponent {
 Bucket.propTypes = {
     Splash: PropTypes.func.isRequired,
     Handle: PropTypes.func,
+    children: PropTypes.func,
     duration: PropTypes.number,
     delay: PropTypes.number
 }
@@ -57,6 +57,7 @@ Bucket.propTypes = {
 // in milliseconds
 Bucket.defaultProps = {
     Handle: props => props.children,
+    children: null,
     duration: 1000,
     delay: 500
 }
