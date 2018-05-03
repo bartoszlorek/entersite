@@ -1,74 +1,191 @@
-const EVENT_NAMES = ['scroll', 'resize', 'orientationchange']
-
-const attachListeners = fn => {
-    EVENT_NAMES.forEach(name => {
-        window.addEventListener(name, fn)
-    })
+const EVENT_SCHEMA = {
+    onLoad: {
+        type: ['load']
+    },
+    onUnload: {
+        type: ['beforeunload']
+    },
+    onResize: {
+        type: ['resize', 'scroll', 'orientationchange'],
+        args: ['width', 'height']
+    },
+    onScroll: {
+        type: ['scroll'],
+        args: ['scrollX', 'scrollY']
+    }
 }
 
-const detachListeners = fn => {
-    EVENT_NAMES.forEach(name => {
-        window.removeEventListener(name, fn)
-    })
-}
-
-const getViewSize = () => ({
-    width: (
+// Browser compatibility
+// IE9+, Firefox, Chrome, Safari, Opera
+const EVENT_ARGS_METHODS = {
+    width: () => (
         window.innerWidth ||
         document.documentElement.clientWidth ||
-        document.body.clientWidth || 0
+        document.body.clientWidth
     ),
-    height: (
+    height: () => (
         window.innerHeight ||
         document.documentElement.clientHeight ||
-        document.body.clientHeight || 0
+        document.body.clientHeight
+    ),
+    scrollX: () => (
+        window.scrollX || window.pageXOffset
+    ),
+    scrollY: () => (
+        window.scrollY || window.pageYOffset
     )
-})
+}
 
-function createViewport() {
-    const callbacks = []
+const addEventListener = (event, fn) => {
+    if (window.addEventListener) {
+        window.addEventListener(event, fn, false)
+    } else {
+        window.attachEvent('on' + event, () => {
+            return fn.call(window, window.event)
+        })
+    }
+}
 
-    const calc = () => {
-        const length = callbacks.length
-        const { width, height } = getViewSize()
+const removeEventListener = (event, fn) => {
+    if (window.removeEventListener) {
+        window.removeEventListener(event, fn)
+    } else {
+        window.detachEvent('on' + event, fn)
+    }
+}
 
-        if (width === api.width && height === api.height) {
-            return api
-        }
-        api.width = width
-        api.height = height
+function createEventHandlers(events, methods) {
+    const result = {}
 
-        if (length) {
-            let index = -1
-            while (++index < length) {
-                callbacks[index].call(null, {
-                    width,
-                    height
-                })
+    Object.keys(events).forEach(name => {
+        const { type, args } = events[name]
+        let cachedArgs = []
+
+        const self = {
+            type,
+            subscribers: [],
+            publisher: force => {
+                const length = self.subscribers.length
+                const values = args ? args.map(a => methods[a].call()) : null
+    
+                if (force !== true && values !== null) {
+                    let shouldUpdate = values.some((value, index) => {
+                        return cachedArgs[index] !== value
+                    })
+                    cachedArgs = values
+                    if (!shouldUpdate) {
+                        return false
+                    }
+                }
+                let index = -1
+                while (++index < length) {
+                    self.subscribers[index].apply(null, values)
+                }
             }
         }
-        return api
+        result[name] = self
+    })
+
+    return result
+}
+
+const applyOptions = (events, options) => {
+    if (options == null) {
+        return events
+    }
+    const result = {}
+    const apply = (key, event, option) => {
+        return option && option[key] || event[key] 
+    }
+    Object.keys(events).forEach(name => {
+        result[name] = {
+            type: apply('type', events[name], options[name]),
+            args: apply('args', events[name], options[name])
+        }
+    })
+    return result
+}
+
+function createViewport(options) {
+    const handlerNames = Object.keys(EVENT_SCHEMA)
+    const handlers = createEventHandlers(
+        applyOptions(EVENT_SCHEMA, options),
+        EVENT_ARGS_METHODS
+    )
+
+    const addEventTypes = name => {
+        let { type, publisher } = handlers[name]
+        type.forEach(name => addEventListener(name, publisher))
+    }
+    const removeEventType = name => {
+        let { type, publisher } = handlers[name]
+        type.forEach(name => removeEventListener(name, publisher))
     }
 
     const api = Object.create({
-        attach: () => {
-            attachListeners(calc)
-            return api
-        },
-        detach: () => {
-            detachListeners(calc)
-            return api
-        },
-        bind: fn => {
-            if (typeof fn === 'function') {
-                callbacks.push(fn)
+        trigger: name => {
+            if (handlers[name] !== undefined) {
+                handlers[name].publisher(true)
             }
             return api
         },
-        calc
+        removeEvent: name => {
+            if (api[name] !== undefined) {
+                api[name].removeAll()
+            }
+            return api
+        },
+        removeAllEvents: () => {
+            handlerNames.forEach(name => {
+                api[name].removeAll()
+            })
+            return api
+        }
     })
 
-    return api.attach().calc()
+    // bind events to the API
+    handlerNames.forEach(name => {
+        const self = handlers[name]
+        const event = fn => {
+            if (typeof fn === 'function') {
+                self.subscribers.push(fn)
+                if (self.subscribers.length === 1) {
+                    addEventTypes(name)
+                }
+            }
+            return api
+        }
+
+        event.removeOne = fn => {
+            if (typeof fn === 'function') {
+                self.subscribers = self.subscribers.filter(sub => {
+                    return sub !== fn
+                })
+                if (!self.subscribers.length) {
+                    removeEventType(name)
+                }
+            }
+            return api
+        }
+        event.removeAll = () => {
+            self.subscribers = []
+            removeEventType(name)
+            return api
+        }
+        event.trigger = () => {
+            self.publisher(true)
+            return api
+        }
+
+        api[name] = event
+    })
+
+    // bind methods to the API
+    Object.keys(EVENT_ARGS_METHODS).forEach(name => {
+        api[name] = EVENT_ARGS_METHODS[name]
+    })
+
+    return api
 }
 
 export default createViewport
