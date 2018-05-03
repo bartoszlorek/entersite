@@ -15,7 +15,7 @@ const Wrap = styled.div`
 const SplashLoader = Loader.extend`
     position: absolute;
     right: 24px;
-    bottom: 24px;
+    bottom: 36px;
     width: 64px;
 
     @media (min-width: 600px) {
@@ -37,20 +37,24 @@ class RawSplash extends React.PureComponent {
     constructor(props) {
         super(props)
 
-        this.viewport = createViewport()
+        this.viewport = createViewport({
+            onResize: {
+                args: ['height']
+            }
+        })
         this.state = {
-            height: this.viewport.height
+            height: this.viewport.height()
         }
     }
 
     componentDidMount() {
-        this.viewport.bind(({ height }) => {
+        this.viewport.onResize(height => {
             this.setState({ height })
         })
     }
 
     componentWillUnmount() {
-        this.viewport.detach()
+        this.viewport.removeEvent('onResize')
     }
 
     render() {
