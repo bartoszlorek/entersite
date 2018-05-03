@@ -1,24 +1,34 @@
 // Browser compatibility
 // IE9+, Firefox, Chrome, Safari, Opera
 
+const EVENT_SCHEMA_KEYS = ['target', 'types', 'args']
+
 const EVENT_SCHEMA = {
-    onLoad: {
-        type: ['load']
+    ready: {
+        target: document,
+        types: ['DOMContentLoaded']
     },
-    onUnload: {
-        type: ['beforeunload']
+    load: {
+        target: window,
+        types: ['load']
     },
-    onResize: {
-        type: ['resize', 'scroll', 'orientationchange'],
+    unload: {
+        target: window,
+        types: ['beforeunload']
+    },
+    resize: {
+        target: window,
+        types: ['resize', 'scroll', 'orientationchange'],
         args: ['width', 'height']
     },
-    onScroll: {
-        type: ['scroll'],
+    scroll: {
+        target: window,
+        types: ['scroll'],
         args: ['scrollX', 'scrollY']
     }
 }
 
-const EVENT_ARGS_METHODS = {
+const EVENT_ARG_METHODS = {
     width: () => (
         window.innerWidth ||
         document.documentElement.clientWidth ||
@@ -37,43 +47,58 @@ const EVENT_ARGS_METHODS = {
     )
 }
 
-const addEventListener = (event, fn) => {
-    if (window.addEventListener) {
-        window.addEventListener(event, fn, false)
+function addEventListener(elem, event, fn) {
+    if (elem == null) {
+        return
+    }
+    if (elem.addEventListener) {
+        elem.addEventListener(event, fn, false)
     } else {
-        window.attachEvent('on' + event, () => {
-            return fn.call(window, window.event)
+        elem.attachEvent('on' + event, () => {
+            return fn.call(elem, window.event)
         })
     }
 }
 
-const removeEventListener = (event, fn) => {
-    if (window.removeEventListener) {
-        window.removeEventListener(event, fn)
+function removeEventListener(elem, event, fn) {
+    if (elem == null) {
+        return
+    }
+    if (elem.removeEventListener) {
+        elem.removeEventListener(event, fn)
     } else {
-        window.detachEvent('on' + event, fn)
+        elem.detachEvent('on' + event, fn)
     }
 }
 
-function createEventHandlers(events, methods) {
+function createExecArgs(args, methods) {
+    if (args != null && args.length) {
+        return () => args.map(a => methods[a]())
+    }
+    return () => null
+}
+
+function createEvents(schema, methods) {
     const result = {}
 
-    Object.keys(events).forEach(name => {
-        const { type, args } = events[name]
-        let cachedArgs = []
+    Object.keys(schema).forEach(name => {
+        let cachedValues = []
+        const { target, types, args } = schema[name]
+        const execArgs = createExecArgs(args, methods)
 
         const self = {
-            type,
+            target,
+            types,
             subscribers: [],
-            publisher: force => {
+            publisher: forceUpdate => {
                 const length = self.subscribers.length
-                const values = args ? args.map(a => methods[a].call()) : null
+                const values = execArgs()
     
-                if (force !== true && values !== null) {
+                if (forceUpdate !== true && values !== null) {
                     let shouldUpdate = values.some((value, index) => {
-                        return cachedArgs[index] !== value
+                        return cachedValues[index] !== value
                     })
-                    cachedArgs = values
+                    cachedValues = values
                     if (!shouldUpdate) {
                         return false
                     }
@@ -89,100 +114,100 @@ function createEventHandlers(events, methods) {
     return result
 }
 
-const applyOptions = (events, options) => {
+function normalizeSchema(schema, options) {
     if (options == null) {
-        return events
+        return schema
     }
     const result = {}
-    const apply = (key, event, option) => {
-        return option && option[key] || event[key] 
-    }
-    Object.keys(events).forEach(name => {
-        result[name] = {
-            type: apply('type', events[name], options[name]),
-            args: apply('args', events[name], options[name])
-        }
+
+    Object.keys(schema).forEach(name => {
+        const event = schema[name]
+        const option = options[name]
+        const buffer = (result[name] = {})
+
+        EVENT_SCHEMA_KEYS.forEach(key => {
+            buffer[key] = (option && option[key]) || event[key] || null
+        })
     })
     return result
 }
 
 function createViewport(options) {
-    const handlerNames = Object.keys(EVENT_SCHEMA)
-    const handlers = createEventHandlers(
-        applyOptions(EVENT_SCHEMA, options),
-        EVENT_ARGS_METHODS
-    )
+    const schema = normalizeSchema(EVENT_SCHEMA, options)
+    const events = createEvents(schema, EVENT_ARG_METHODS)
+    const eventNames = Object.keys(events)
 
-    const addEventTypes = name => {
-        let { type, publisher } = handlers[name]
-        type.forEach(name => addEventListener(name, publisher))
-    }
-    const removeEventType = name => {
-        let { type, publisher } = handlers[name]
-        type.forEach(name => removeEventListener(name, publisher))
+    const addEventPublisher = ({ target, types, publisher }) => {
+        types.forEach(type => addEventListener(target, type, publisher))
     }
 
-    const api = Object.create({
+    const removeEventPublisher = ({ target, types, publisher }) => {
+        types.forEach(type => removeEventListener(target, type, publisher))
+    }
+
+    const addEventSubscriber = (event, fn) => {
+        event.subscribers.push(fn)
+        if (event.subscribers.length === 1) {
+            addEventPublisher(event)
+        }
+    }
+
+    const removeEventSubscriber = (event, fn) => {
+        let index = event.subscribers.indexOf(fn)
+        if (index > -1) {
+            event.subscribers.splice(index, 1)
+            if (!event.subscribers.length) {
+                removeEventPublisher(event)
+            }
+        }
+    }
+
+    const removeAllEventSubscribers = event => {
+        event.subscribers = []
+        removeEventPublisher(event)
+    }
+
+    const getValidEvent = name => {
+        if (events[name] === undefined) {
+            throw new Error(`The '${name}' is not a valid event name.`)
+        }
+        return events[name]
+    }
+
+    const api = {
+        on: (name, fn) => {
+            let event = getValidEvent(name)
+            if (typeof fn === 'function') {
+                addEventSubscriber(event, fn)
+            }
+            return api
+        },
+
+        off: (name, fn) => {
+            if (name === undefined) {
+                eventNames.forEach(name => {
+                    removeAllEventSubscribers(events[name])
+                })
+            } else {
+                let event = getValidEvent(name)
+                if (typeof fn === 'function') {
+                    removeEventSubscriber(event, fn)
+                } else if (fn === undefined) {
+                    removeAllEventSubscribers(event)
+                }
+            }
+            return api
+        },
+
         trigger: name => {
-            if (handlers[name] !== undefined) {
-                handlers[name].publisher(true)
-            }
-            return api
-        },
-        removeEvent: name => {
-            if (api[name] !== undefined) {
-                api[name].removeAll()
-            }
-            return api
-        },
-        removeAllEvents: () => {
-            handlerNames.forEach(name => {
-                api[name].removeAll()
-            })
+            getValidEvent(name).publisher(true)
             return api
         }
-    })
+    }
 
-    // bind events to the API
-    handlerNames.forEach(name => {
-        const self = handlers[name]
-        const event = fn => {
-            if (typeof fn === 'function') {
-                self.subscribers.push(fn)
-                if (self.subscribers.length === 1) {
-                    addEventTypes(name)
-                }
-            }
-            return api
-        }
-        event.removeOne = fn => {
-            if (typeof fn === 'function') {
-                let index = self.subscribers.indexOf(fn)
-                if (index > -1) {
-                    self.subscribers.splice(index, 1)
-                    if (!self.subscribers.length) {
-                        removeEventType(name)
-                    }
-                }
-            }
-            return api
-        }
-        event.removeAll = () => {
-            self.subscribers = []
-            removeEventType(name)
-            return api
-        }
-        event.trigger = () => {
-            self.publisher(true)
-            return api
-        }
-
-        api[name] = event
-    })
-
-    // bind methods to the API
-    Object.keys(EVENT_ARGS_METHODS).forEach(name => {
-        api[name] = EVENT_ARGS_METHODS[name]
+    // add static methods to the API
+    Object.keys(EVENT_ARG_METHODS).forEach(name => {
+        api[name] = EVENT_ARG_METHODS[name]
     })
 
     return api
