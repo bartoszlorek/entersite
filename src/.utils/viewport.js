@@ -1,29 +1,24 @@
 // Browser compatibility
 // IE9+, Firefox, Chrome, Safari, Opera
 
-const EVENT_SCHEMA_KEYS = ['target', 'types', 'args']
+const EVENT_SCHEMA_KEYS = [
+    'type', // [Array]
+    'args'  // [Array]
+]
 
 const EVENT_SCHEMA = {
-    ready: {
-        target: document,
-        types: ['DOMContentLoaded']
-    },
     load: {
-        target: window,
-        types: ['load']
+        type: ['load']
     },
     unload: {
-        target: window,
-        types: ['beforeunload']
+        type: ['beforeunload']
     },
     resize: {
-        target: window,
-        types: ['resize', 'scroll', 'orientationchange'],
+        type: ['resize', 'scroll', 'orientationchange'],
         args: ['width', 'height']
     },
     scroll: {
-        target: window,
-        types: ['scroll'],
+        type: ['scroll'],
         args: ['scrollX', 'scrollY']
     }
 }
@@ -73,7 +68,7 @@ function removeEventListener(elem, event, fn) {
 
 function createExecArgs(args, methods) {
     if (args != null && args.length) {
-        return () => args.map(a => methods[a]())
+        return () => args.map(arg => methods[arg]())
     }
     return () => null
 }
@@ -83,12 +78,11 @@ function createEvents(schema, methods) {
 
     Object.keys(schema).forEach(name => {
         let cachedValues = []
-        const { target, types, args } = schema[name]
+        const { type, args } = schema[name]
         const execArgs = createExecArgs(args, methods)
 
         const self = {
-            target,
-            types,
+            type,
             subscribers: [],
             publisher: forceUpdate => {
                 const length = self.subscribers.length
@@ -114,12 +108,8 @@ function createEvents(schema, methods) {
     return result
 }
 
-function normalizeSchema(schema, options) {
-    if (options == null) {
-        return schema
-    }
+function normalizeSchema(schema, options = {}) {
     const result = {}
-
     Object.keys(schema).forEach(name => {
         const event = schema[name]
         const option = options[name]
@@ -132,17 +122,17 @@ function normalizeSchema(schema, options) {
     return result
 }
 
-function createViewport(options) {
+function createViewport(options, view = window) {
     const schema = normalizeSchema(EVENT_SCHEMA, options)
     const events = createEvents(schema, EVENT_ARG_METHODS)
     const eventNames = Object.keys(events)
 
-    const addEventPublisher = ({ target, types, publisher }) => {
-        types.forEach(type => addEventListener(target, type, publisher))
+    const addEventPublisher = ({ type, publisher }) => {
+        type.forEach(name => addEventListener(view, name, publisher))
     }
 
-    const removeEventPublisher = ({ target, types, publisher }) => {
-        types.forEach(type => removeEventListener(target, type, publisher))
+    const removeEventPublisher = ({ type, publisher }) => {
+        type.forEach(name => removeEventListener(view, name, publisher))
     }
 
     const addEventSubscriber = (event, fn) => {

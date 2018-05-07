@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import createViewport from '../.utils/viewport'
 
 import { BASE } from '../../config'
-import Loader from './Loader'
+import Image from './Image'
+import Box from './Box'
 
 const Wrap = styled.div`
     position: absolute;
@@ -12,7 +13,7 @@ const Wrap = styled.div`
     height: 100vh;
 `
 
-const SplashLoader = Loader.extend`
+const SplashBox = Box.extend`
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,7 +30,7 @@ const SplashLoader = Loader.extend`
     }
 `
 
-class RawSplash extends React.PureComponent {
+class RawSplash extends React.Component {
     constructor(props) {
         super(props)
 
@@ -60,12 +61,9 @@ class RawSplash extends React.PureComponent {
         return (
             <div className={this.props.className}>
                 <Wrap style={style}>
-                    <SplashLoader
-                        src={BASE + 'loader.svg'}
-                        width={64}
-                        height={64}
-                        frames={5}
-                    />
+                    <SplashBox>
+                        <Image src={BASE + 'loader.svg'} />
+                    </SplashBox>
                 </Wrap>
             </div>
         )

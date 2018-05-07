@@ -65,15 +65,6 @@ describe('handle error', () => {
 })
 
 describe('add event subscriber', () => {
-    it('ready', () => {
-        const view = createViewport()
-        const callback = jest.fn()
-        view.on('ready', callback)
-
-        dispatchEvent('DOMContentLoaded', 'document')
-        expect(callback.mock.calls.length).toBe(1)
-    })
-
     it('load', () => {
         const view = createViewport()
         const callback = jest.fn()
