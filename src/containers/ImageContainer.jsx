@@ -7,9 +7,9 @@ import data from '../data/images.json'
 
 const transformedData = data.map(img => ({
     src: `${BASE}images/${img.filename}`,
-    'data-group': img.group,
     width: img.width,
-    height: img.height
+    height: img.height,
+    alt: img.caption
 }))
 
 class ImageContainer extends React.Component {
@@ -26,20 +26,14 @@ class ImageContainer extends React.Component {
 }
 
 export default styled(ImageContainer)`
-    & {
-        display: none;
-    }
+    display: none;
 
     @media (min-width: 600px) {
         & {
             display: block;
             padding: 6vw;
         }
-        & img {
-            display: block;
-            margin: 0 0 3vw;
-        }
-        & img:last-child {
+        ${Image}:last-child {
             margin: 0;
         }
     }

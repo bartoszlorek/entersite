@@ -38,9 +38,7 @@ class MenuContainer extends React.PureComponent {
 }
 
 export default styled(MenuContainer)`
-    & {
-        padding: 24px;
-    }
+    padding: 24px;
 
     @media (min-width: 600px) {
         & {

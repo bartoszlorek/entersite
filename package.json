@@ -29,14 +29,15 @@
     "handlebars": "^4.0.11",
     "jest-cli": "^21.2.1",
     "style-loader": "^0.19.0",
-    "styled-components": "^3.1.6",
     "webpack": "^3.10.0"
   },
   "dependencies": {
     "lodash": "^4.17.4",
+    "polished": "^1.9.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "stickyfilljs": "^2.0.3"
+    "stickyfilljs": "^2.0.3",
+    "styled-components": "^3.1.6"
   }
 }

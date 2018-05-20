@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Link from './Link'
+
 const Title = styled.h3`
     font-weight: 500;
     margin: 0 0 12px;
@@ -13,7 +15,7 @@ const List = styled.ul`
 `
 
 const ListItem = styled.li`
-    & a {
+    & ${Link} {
         display: inline-block;
         padding: 0.2em 0;
     }
@@ -28,7 +30,7 @@ class MenuGroup extends React.PureComponent {
                 <List>
                     {items.map((item, index) => (
                         <ListItem key={index}>
-                            <a href={item.url}>{item.name}</a>
+                            <Link href={item.url}>{item.name}</Link>
                         </ListItem>
                     ))}
                 </List>

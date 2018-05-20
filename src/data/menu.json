@@ -21,13 +21,11 @@
         "items": [
             {
                 "url": "http://w-arte.pl/",
-                "name": "w-arte.pl",
-                "group": "w-arte"
+                "name": "w-arte.pl"
             },
             {
                 "url": "http://ankawalicka.com/",
-                "name": "ankawalicka.com",
-                "group": "anka"
+                "name": "ankawalicka.com"
             },
             {
                 "url": "http://plankton.tv/",
@@ -59,34 +57,32 @@
         "items": [
             {
                 "url": "https://chrome.google.com/webstore/detail/change-case/lpakoahdokkkonadfppfgmednkknpgbm",
-                "name": "Change Case",
-                "group": "change-case"
+                "name": "Change Case"
             },
             {
                 "url": "https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi",
-                "name": "Glyphs",
-                "group": "glyphs"
+                "name": "Glyphs"
             }
         ]
     },
     {
-        "title": "demos",
+        "title": "open projects",
         "items": [
-            {
-                "url": "http://bartoszlorek.pl/run/glitch-img/",
-                "name": "glitch-img"
-            },
             {
                 "url": "http://bartoszlorek.pl/run/glitch-text/",
                 "name": "glitch-text"
             },
             {
-                "url": "http://bartoszlorek.pl/run/old/square-clouds",
-                "name": "square-clouds"
+                "url": "https://github.com/bartoszlorek/aframe",
+                "name": "aframe (RAF utils)"
             },
             {
-                "url": "http://bartoszlorek.pl/run/old/text-wrapper",
-                "name": "text-wrapper"
+                "url": "https://github.com/bartoszlorek/selection",
+                "name": "selection"
+            },
+            {
+                "url": "https://github.com/bartoszlorek/tiny-fraction",
+                "name": "tiny-fraction"
             }
         ]
     }
