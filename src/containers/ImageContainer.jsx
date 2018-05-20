@@ -9,7 +9,8 @@ const transformedData = data.map(img => ({
     src: `${BASE}images/${img.filename}`,
     width: img.width,
     height: img.height,
-    alt: img.caption
+    alt: img.alt || '',
+    caption: img.caption || ''
 }))
 
 class ImageContainer extends React.Component {

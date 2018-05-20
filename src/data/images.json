@@ -1,44 +1,39 @@
 [
     {
         "filename": "glyphs-screen.png",
-        "width": "1920",
-        "height": "1080",
-        "caption": "[Chrome extension](https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi) provides quick access to common special characters through the floating window."
+        "width": 1920,
+        "height": 1080,
+        "alt": "The floating window with common special characters of Glyphs extension.",
+        "caption": "[Glyphs](https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi) is a Chrome extension that provides quick access to common special characters through the floating window."
     },
     {
         "filename": "change-case-screen-1.png",
-        "width": "1280",
-        "height": "800",
-        "caption": ""
+        "width": 1280,
+        "height": 800
     },
     {
         "filename": "change-case-screen-2.png",
-        "width": "1280",
-        "height": "800",
-        "caption": ""
+        "width": 1280,
+        "height": 800
     },
     {
         "filename": "w-arte-1.jpg",
-        "width": "1920",
-        "height": "1200",
-        "caption": ""
+        "width": 1920,
+        "height": 1200
     },
     {
         "filename": "w-arte-2.png",
-        "width": "1920",
-        "height": "1200",
-        "caption": ""
+        "width": 1920,
+        "height": 1200
     },
     {
         "filename": "anka-1.png",
-        "width": "1920",
-        "height": "1200",
-        "caption": ""
+        "width": 1920,
+        "height": 1200
     },
     {
         "filename": "anka-2.jpg",
-        "width": "1920",
-        "height": "1200",
-        "caption": ""
+        "width": 1920,
+        "height": 1200
     }
 ]
