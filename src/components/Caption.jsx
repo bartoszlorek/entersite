@@ -17,11 +17,15 @@ const mark = applyMarkdown({
 
 class Caption extends React.PureComponent {
     render() {
-        return <span {...this.props}>{mark(this.props.children)}</span>
+        return (
+            <span {...this.props}>
+                {mark(this.props.children)}
+            </span>
+        )
     }
 }
 
 export default styled(Caption)`
-    font-style: italic;
+    font-size: 0.9em;
     color: ${textColor};
 `

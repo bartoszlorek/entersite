@@ -34,16 +34,17 @@ const styledLink = styled(Link)`
     }
 
     & span {
-        height: 0.65em;
+        height: 0.75em;
         display: inline-block;
-        border-bottom: 0.75em solid;
-        border-bottom-color: ${props => props.defaultBackgroundColor};
+        box-shadow: 0px 0.6em 0px ${props => props.defaultBackgroundColor},
+            inset 0px -0.15em 0px ${props => props.defaultBackgroundColor};
     }
 
     &:focus span,
     &:active span,
     &:hover span {
-        border-bottom-color: ${props => props.activeBackgroundColor};
+        box-shadow: 0px 0.6em 0px ${props => props.activeBackgroundColor},
+            inset 0px -0.15em 0px ${props => props.activeBackgroundColor};
     }
 `
 
