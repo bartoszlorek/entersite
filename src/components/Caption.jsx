@@ -9,7 +9,7 @@ const mark = applyMarkdown({
     '[]': (
         <Link
             color={textColor}
-            defaultBackgroundColor={'#f2ea8c'}
+            defaultBackgroundColor={'#e6e6e6'}
             activeBackgroundColor={'#c2e08e'}
         />
     )
