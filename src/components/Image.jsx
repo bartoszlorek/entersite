@@ -37,7 +37,7 @@ export default styled(Image)`
 
     & img {
         display: block;
-        margin: 0 0 8px;
+        margin: 0 0 1em;
     }
 
     @media (min-width: 600px) {

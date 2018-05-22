@@ -28,7 +28,7 @@ class App extends React.Component {
             <Bucket
                 Splash={Splash}
                 Handle={Handle}
-                delay={1500}
+                delay={1250}
             >
                 {this.content}
             </Bucket>
