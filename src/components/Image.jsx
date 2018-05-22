@@ -42,7 +42,7 @@ export default styled(Image)`
 
     @media (min-width: 600px) {
         & {
-            margin: 0 0 3vw;
+            margin: 0 0 4vw;
         }
     }
 `
