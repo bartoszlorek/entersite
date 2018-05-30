@@ -36,15 +36,15 @@
             },
             {
                 "url": "http://nocnaukowcow.malopolska.pl/program/krakow/",
-                "name": "małopolska noc naukowców"
-            },
-            {
-                "url": "http://wfp.asp.krakow.pl/absolwent/",
-                "name": "wfp.asp.krakow.pl/appsolwent"
+                "name": "European Researchers' Night"
             },
             {
                 "url": "http://tydzienprzedsiebiorczosci.malopolska.pl/program/krakow",
-                "name": "stp.malopolska.pl/program"
+                "name": "Global Entrepreneurship Week"
+            },
+            {
+                "url": "http://wfp.asp.krakow.pl/absolwent/",
+                "name": "WFP Appsolwent"
             },
             {
                 "url": "https://ecumaster.com/",
@@ -62,6 +62,10 @@
             {
                 "url": "https://chrome.google.com/webstore/detail/glyphs/holbdohcbcodlejipgcmdleppjmfffhi",
                 "name": "Glyphs"
+            },
+            {
+                "url": "https://github.com/bartoszlorek/timeliner",
+                "name": "Timeliner"
             }
         ]
     },
@@ -79,6 +83,10 @@
             {
                 "url": "https://github.com/bartoszlorek/selection",
                 "name": "selection"
+            },
+            {
+                "url": "https://github.com/bartoszlorek/svg-motion",
+                "name": "svg-motion"
             },
             {
                 "url": "https://github.com/bartoszlorek/tiny-fraction",

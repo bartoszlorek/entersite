@@ -50,7 +50,7 @@
         "width": 1920,
         "height": 1200,
         "alt": "On the left full list of events, and on the right a single event page.",
-        "caption": "Schedule application for financial event [Światowy Tydzień Przedsiębiorczości](http://tydzienprzedsiebiorczosci.malopolska.pl/program/krakow) for the Marshal’s Office in Cracow; on the left: full view, right: event page."
+        "caption": "Schedule application for financial event [Global Entrepreneurship Week](http://tydzienprzedsiebiorczosci.malopolska.pl/program/krakow) for the Marshal’s Office in Cracow; on the left: full view, right: event page."
     },
     {
         "filename": "appsolwent-01.png",
@@ -58,6 +58,19 @@
         "height": 1075,
         "alt": "Each character represents a graduate of the Faculty of Industrial Design (ASP in Cracow).",
         "caption": "Jubilee [application](http://wfp.asp.krakow.pl/absolwent/) for displaying all graduates of the Faculty of Industrial Design from 1964 to 2014 (ASP in Cracow)."
+    },
+    {
+        "filename": "mnn-01.png",
+        "width": 1920,
+        "height": 1200,
+        "alt": "On the left full list of events, and on the right a single event page.",
+        "caption": "Schedule application for large scientific event [European Researchers Night](http://nocnaukowcow.malopolska.pl/program/krakow/) for the Marshal’s Office in Cracow; on the left: full view, right: event page."
+    },
+    {
+        "filename": "mnn-02.png",
+        "width": 1920,
+        "height": 1200,
+        "alt": "Selected pictograms of the main set."
     },
     {
         "filename": "plankton-home-01.png",

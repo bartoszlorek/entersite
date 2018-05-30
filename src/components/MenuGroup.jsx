@@ -16,6 +16,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
     & ${Link} {
+        white-space: nowrap;
         display: inline-block;
         padding: 0.25em 0;
     }
