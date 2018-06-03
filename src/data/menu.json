@@ -36,15 +36,15 @@
             },
             {
                 "url": "http://nocnaukowcow.malopolska.pl/program/krakow/",
-                "name": "European Researchers' Night"
+                "name": "mnn.malopolska.pl/program"
             },
             {
                 "url": "http://tydzienprzedsiebiorczosci.malopolska.pl/program/krakow",
-                "name": "Global Entrepreneurship Week"
+                "name": "stp.malopolska.pl/program"
             },
             {
                 "url": "http://wfp.asp.krakow.pl/absolwent/",
-                "name": "WFP Appsolwent"
+                "name": "wfp.asp.krakow.pl/absolwent"
             },
             {
                 "url": "https://ecumaster.com/",
@@ -73,24 +73,28 @@
         "title": "open projects",
         "items": [
             {
-                "url": "http://bartoszlorek.pl/run/glitch-text/",
-                "name": "glitch-text"
-            },
-            {
                 "url": "https://github.com/bartoszlorek/aframe",
-                "name": "aframe (RAF utils)"
+                "name": "aframe"
             },
             {
                 "url": "https://github.com/bartoszlorek/selection",
                 "name": "selection"
             },
             {
-                "url": "https://github.com/bartoszlorek/svg-motion",
-                "name": "svg-motion"
+                "url": "https://github.com/bartoszlorek/make-bem",
+                "name": "make-bem"
+            },
+            {
+                "url": "http://bartoszlorek.pl/run/glitch-text/",
+                "name": "glitch-text"
             },
             {
                 "url": "https://github.com/bartoszlorek/tiny-fraction",
                 "name": "tiny-fraction"
+            },
+            {
+                "url": "https://github.com/bartoszlorek/svg-motion",
+                "name": "svg-motion"
             }
         ]
     }
