@@ -1,0 +1,64 @@
+html {
+  font-family: 'Fira Mono', monospace;
+  font-size: 16px;
+}
+
+body {
+ color: #222;
+ margin: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.menu {
+  padding: 24px;
+}
+
+.menu__group {
+  margin: 0 0 36px;
+}
+
+.menu__group:last-child {
+  margin: 0;
+}
+
+.menu__headline {
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+
+.menu__items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__item {
+  white-space: nowrap;
+  display: inline-block;
+  padding: 0.25em 0;
+}
+
+.assets {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .assets {
+    display: block;
+    padding: 6vw;
+  }
+
+  .assets:last-child {
+    margin: 0;
+  }
+}

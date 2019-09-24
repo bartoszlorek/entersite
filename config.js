@@ -1,7 +1,14 @@
-const PRODUCTION = process.env.NODE_ENV === 'production'
-const BASE = PRODUCTION ? './www/' : './'
+const fs = require('fs');
+const build = require('./build');
 
-module.exports = {
-    PRODUCTION,
-    BASE
-}
+build({
+  context: {
+    assets_path: './www/images/',
+    assets: require('./src/assets'),
+    menu: require('./src/menu')
+  }
+});
+
+fs.copyFile('./src/style.css', './public/style.css', err => {
+  if (err) throw err;
+});

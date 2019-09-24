@@ -1,21 +1,55 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Bartosz Lorek</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,500&amp;subset=latin-ext" rel="stylesheet">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56488082-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-56488082-1');
-    </script>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Bartosz Lorek</title>
+
+  <link href="./style.css" media="all" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,500&amp;subset=latin-ext" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56488082-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-56488082-1');
+  </script>
 </head>
+
 <body>
-    <div id="app"></div>
-    <script src="{{BASE}}scripts.js"></script>
+  <div class="menu">
+    {{#each menu}}
+    <div class="menu__group">
+      <h3>{{title}}</h3>
+      <ul class="menu__items">
+      {{#each items}}
+      <li>
+        <a class="menu__item" href="{{url}}">
+          {{name}}
+        </a>
+      </li>
+      {{/each}}
+      </ul>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="assets">
+    {{#each assets}}
+    <div class="assets__item">
+      <img
+        src="{{../assets_path}}{{filename}}"
+        width="{{width}}"
+        height="{{height}}"
+        alt="{{alt}}"
+      />
+      {{#if caption}}
+        <span>{{caption}}</span>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
 </body>
+
 </html>
